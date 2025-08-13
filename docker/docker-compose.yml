@@ -1,0 +1,33 @@
+services:
+  pm-db:
+    container_name: popcornmeter
+    image: postgres:17
+    environment:
+      POSTGRES_USER: pm_user
+      POSTGRES_PASSWORD: pm_pwd
+      POSTGRES_DB: popcornmeter
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d postgres" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  pm-prometheus:
+    image: prom/prometheus:v3.5.0
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/tmp:/prometheus
+      - ./prometheus/config:/etc/prometheus
+    command: --config.file=/etc/prometheus/prometheus.yml --log.level=debug
+
+  pm-grafana:
+    image: grafana/grafana:12.0.4
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/tmp:/var/lib/grafana
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini

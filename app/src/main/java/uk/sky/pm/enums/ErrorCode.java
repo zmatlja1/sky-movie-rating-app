@@ -1,0 +1,13 @@
+package uk.sky.pm.enums;
+
+public enum ErrorCode {
+    MOVIE_NOT_FOUND,
+    USER_NOT_FOUND,
+    RATING_ALREADY_EXISTS_FOR_THE_MOVIE,
+    RATING_DOES_NOT_EXIST_FOR_THE_MOVIE,
+
+    INVALID_DATA,
+    WRONG_INPUT_DATA,
+    ACCESS_DENIED,
+    OTHER_ERROR
+}

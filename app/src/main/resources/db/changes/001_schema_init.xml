@@ -1,0 +1,65 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <!-- Create PM_USER table -->
+    <changeSet id="create_pm_user_table" author="jan.zmatlik">
+        <createTable tableName="PM_USER">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="VERSION" type="BIGINT"/>
+            <column name="EMAIL" type="VARCHAR(150)"/>
+            <column name="PASSWORD" type="VARCHAR(150)"/>
+        </createTable>
+
+        <createIndex indexName="IDX_PM_USER_EMAIL" tableName="PM_USER">
+            <column name="EMAIL"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create_pm_movie_table" author="jan.zmatlik">
+        <createTable tableName="PM_MOVIE">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="VERSION" type="BIGINT"/>
+            <column name="NAME" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_pm_rating_table" author="copilot">
+        <createTable tableName="PM_RATING">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="VERSION" type="BIGINT"/>
+            <column name="RATING" type="INT"/>
+            <column name="USER_ID" type="BIGINT"/>
+            <column name="MOVIE_ID" type="BIGINT"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="PM_RATING"
+                baseColumnNames="USER_ID"
+                referencedTableName="PM_USER"
+                referencedColumnNames="ID"
+                constraintName="FK_RATING_USER"/>
+
+        <addForeignKeyConstraint
+                baseTableName="PM_RATING"
+                baseColumnNames="MOVIE_ID"
+                referencedTableName="PM_MOVIE"
+                referencedColumnNames="ID"
+                constraintName="FK_RATING_MOVIE"/>
+
+        <createIndex indexName="IDX_PM_RATING_USER_ID" tableName="PM_RATING">
+            <column name="USER_ID"/>
+            <column name="MOVIE_ID"/>
+        </createIndex>
+        
+    </changeSet>
+
+</databaseChangeLog>

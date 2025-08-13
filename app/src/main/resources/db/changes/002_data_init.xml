@@ -1,0 +1,38 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="init-insert-movies" author="jan.zmatlik">
+        <insert tableName="PM_MOVIE">
+            <column name="VERSION" valueNumeric="0"/>
+            <column name="NAME" value="The Matrix"/>
+        </insert>
+
+        <insert tableName="PM_MOVIE">
+            <column name="VERSION" valueNumeric="0"/>
+            <column name="NAME" value="The Godfather"/>
+        </insert>
+
+        <insert tableName="PM_MOVIE">
+            <column name="VERSION" valueNumeric="0"/>
+            <column name="NAME" value="Alien"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="init-insert-users" author="jan.zmatlik">
+        <insert tableName="PM_USER">
+            <column name="VERSION" valueNumeric="0"/>
+            <column name="EMAIL" value="jan@test.com"/>
+            <column name="PASSWORD" value="$2a$12$9czQ86fp37zjhMxOBd24UeFQvzrsRNa5iDoj4PzD9dJwtSoROoaGa"/>
+        </insert>
+
+        <insert tableName="PM_USER">
+            <column name="VERSION" valueNumeric="0"/>
+            <column name="EMAIL" value="test@test.com"/>
+            <column name="PASSWORD" value="$2a$12$9czQ86fp37zjhMxOBd24UeFQvzrsRNa5iDoj4PzD9dJwtSoROoaGa"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
