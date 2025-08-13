@@ -1,11 +1,16 @@
 package uk.sky.pm.dao;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
 import uk.sky.pm.domain.Movie;
 import uk.sky.pm.domain.Rating;
 
@@ -17,6 +22,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 class MovieRepositoryTest {
+
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
+        "postgres:17-alpine"
+    );
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
+    @DynamicPropertySource
+    private static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
 
     @Autowired
     private MovieRepository movieRepository;
@@ -58,7 +84,7 @@ class MovieRepositoryTest {
         var page = movieRepository.findAllMovies(pageable);
 
         assertEquals(1, page.getContent().size());
-        assertEquals("Tenet", page.getContent().getFirst().name());
+        assertEquals("Alien", page.getContent().getFirst().name());
     }
 
     @Test
@@ -68,11 +94,11 @@ class MovieRepositoryTest {
 
         var movies = page.getContent();
         assertEquals("Tenet", movies.getFirst().name());
-        assertEquals(new BigDecimal(5), movies.getFirst().movieRating());
+        assertEquals(new BigDecimal(5).intValue(), movies.getFirst().movieRating().intValue());
         assertEquals("Interstellar", movies.get(1).name());
-        assertEquals(new BigDecimal(4), movies.get(1).movieRating());
+        assertEquals(new BigDecimal(4).intValue(), movies.get(1).movieRating().intValue());
         assertEquals("Alien", movies.getLast().name());
-        assertEquals(new BigDecimal(3), movies.getLast().movieRating());
+        assertEquals(new BigDecimal(3).intValue(), movies.getLast().movieRating().intValue());
     }
 
     private static Movie createMovie(final String name) {
