@@ -3,9 +3,11 @@ package uk.sky.pm.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "PM_RATING")
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Rating extends CommonEntity {
@@ -19,18 +21,10 @@ public class Rating extends CommonEntity {
         return rating;
     }
 
-    public void setRating(final Integer rating) {
-        this.rating = rating;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     public User getUser() {
         return user;
-    }
-
-    public void setUser(final User user) {
-        this.user = user;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,7 +33,4 @@ public class Rating extends CommonEntity {
         return movie;
     }
 
-    public void setMovie(final Movie movie) {
-        this.movie = movie;
-    }
 }

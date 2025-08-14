@@ -11,9 +11,11 @@ import uk.sky.pm.dto.MovieDto;
 public interface MovieRepository extends PagingAndSortingRepository<Movie, Long>, CrudRepository<Movie, Long> {
 
     @Query(value = """
-        select m.name, avg(r.rating) as movieRating from pm_movie m
-        left join pm_rating r on r.movie_id=m.id
-        group by m.name
+        select * from (
+            select m.name, coalesce(avg(r.rating), 0) as movieRating from pm_movie m
+            left join pm_rating r on r.movie_id=m.id
+            group by m.name
+        ) as movie_ratings
         """,
         countQuery = """
         select count(distinct m.name)

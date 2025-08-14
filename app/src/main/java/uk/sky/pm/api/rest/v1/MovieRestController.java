@@ -1,9 +1,10 @@
 package uk.sky.pm.api.rest.v1;
 
+import io.micrometer.core.instrument.Counter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
-import lombok.AllArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import uk.sky.pm.api.rest.v1.dto.MovieApiDto;
@@ -15,13 +16,22 @@ import uk.sky.pm.service.MovieService;
 import java.util.List;
 
 @Tag(name = "Movies")
-@AllArgsConstructor
 @RestController
 @RequestMapping("/rest/v1/movies")
 public class MovieRestController {
 
     private final MovieService movieService;
     private final MovieMapper movieMapper;
+    private final Counter addMovieRatingApiCounter;
+
+    public MovieRestController(final MovieService movieService,
+                               final MovieMapper movieMapper,
+                               final Environment environment,
+                               final Counter addMovieRatingApiCounter) {
+        this.movieService = movieService;
+        this.movieMapper = movieMapper;
+        this.addMovieRatingApiCounter = addMovieRatingApiCounter;
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -36,6 +46,7 @@ public class MovieRestController {
     @PostMapping(path = "/{movieId}/ratings")
     @ResponseStatus(HttpStatus.CREATED)
     public RatingResponseApiDto addRating(@PathVariable Long movieId, @RequestBody @Valid RatingApiDto ratingApiDto) {
+        addMovieRatingApiCounter.increment();
         return new RatingResponseApiDto(movieService.addMovieRating(movieId, ratingApiDto.rating()));
     }
 

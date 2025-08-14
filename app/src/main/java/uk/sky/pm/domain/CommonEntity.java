@@ -1,8 +1,14 @@
 package uk.sky.pm.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @MappedSuperclass
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class CommonEntity {
 
     private Long id;
@@ -15,17 +21,10 @@ public abstract class CommonEntity {
         return id;
     }
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
     @Version
     @Column(name = "VERSION")
     public Long getVersion() {
         return version;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
-    }
 }

@@ -26,7 +26,7 @@ public class WebSecurityConfiguration {
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.GET, "/rest/v1/movies").permitAll()
                 .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-                .requestMatchers("/swagger-ui/**", "/swagger", "/v3/api-docs").permitAll()
+                .requestMatchers("/swagger-ui/**", "/swagger", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated())
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

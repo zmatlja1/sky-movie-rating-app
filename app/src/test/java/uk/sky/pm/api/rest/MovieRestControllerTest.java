@@ -2,6 +2,7 @@ package uk.sky.pm.api.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.core.instrument.Counter;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -38,6 +39,9 @@ public class MovieRestControllerTest {
 
     @MockitoBean
     private MovieService movieService;
+
+    @MockitoBean
+    private Counter counter;
 
     @Autowired
     private MockMvc mockMvc;
@@ -123,6 +127,7 @@ public class MovieRestControllerTest {
 
         verify(movieService)
             .addMovieRating(longArgumentCaptor.capture(), integerArgumentCaptor.capture());
+        verify(counter).increment();
 
         assertAll(
             () -> assertEquals(movieId, longArgumentCaptor.getValue()),

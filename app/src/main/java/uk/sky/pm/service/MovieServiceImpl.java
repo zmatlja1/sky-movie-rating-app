@@ -23,9 +23,9 @@ import java.util.Optional;
 @AllArgsConstructor
 public class MovieServiceImpl implements MovieService {
 
-    private MovieRepository movieRepository;
-    private RatingRepository ratingRepository;
-    private UserRepository userRepository;
+    private final MovieRepository movieRepository;
+    private final RatingRepository ratingRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     @Override

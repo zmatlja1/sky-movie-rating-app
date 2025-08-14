@@ -3,8 +3,14 @@ package uk.sky.pm.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "PM_USER")
 public class User extends CommonEntity {
 
@@ -16,16 +22,9 @@ public class User extends CommonEntity {
         return email;
     }
 
-    public void setEmail(final String email) {
-        this.email = email;
-    }
-
     @Column(name = "PASSWORD")
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(final String password) {
-        this.password = password;
-    }
 }
