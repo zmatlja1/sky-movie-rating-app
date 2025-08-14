@@ -41,7 +41,8 @@ http://localhost:8080/actuator/prometheus
 Exported APIs in Postman collection v2.1 is `postman/SkyPopcornMeter_v2.1.postman_collection`
 
 ### Junit and Integration tests
-Are in the `/test/java/integration` folder. Integration tests are in uk.sky.pm package.
+Integration tests are in the `/test/java/integration` folder. 
+JUnit tests are in `/test/java/uk.sky.pm`.
 
 Cucumber feature file is in `/test/resources/features/movie.feature`.
 
