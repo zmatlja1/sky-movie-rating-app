@@ -1,0 +1,7 @@
+apiVersion: 1
+datasources:
+  - name: PM Prometheus
+    type: prometheus
+    access: proxy
+    url: http://pm-prometheus:9090
+    isDefault: true

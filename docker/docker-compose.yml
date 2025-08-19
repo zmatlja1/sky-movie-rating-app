@@ -19,6 +19,7 @@ services:
     image: prom/prometheus:v3.5.0
     ports:
       - 9090:9090
+    restart: unless-stopped
     volumes:
       - ./prometheus/tmp:/prometheus
       - ./prometheus/config:/etc/prometheus
@@ -28,6 +29,11 @@ services:
     image: grafana/grafana:12.0.4
     ports:
       - 3000:3000
+    restart: unless-stopped
+    depends_on:
+      - pm-prometheus
     volumes:
-      - ./grafana/tmp:/var/lib/grafana
+#      - ./grafana/tmp:/var/lib/grafana
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards

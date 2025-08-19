@@ -4,7 +4,8 @@ import io.micrometer.core.instrument.Counter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
-import org.springframework.core.env.Environment;
+import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import uk.sky.pm.api.rest.v1.dto.MovieApiDto;
@@ -18,25 +19,19 @@ import java.util.List;
 @Tag(name = "Movies")
 @RestController
 @RequestMapping("/rest/v1/movies")
+@AllArgsConstructor
 public class MovieRestController {
 
     private final MovieService movieService;
     private final MovieMapper movieMapper;
     private final Counter addMovieRatingApiCounter;
 
-    public MovieRestController(final MovieService movieService,
-                               final MovieMapper movieMapper,
-                               final Environment environment,
-                               final Counter addMovieRatingApiCounter) {
-        this.movieService = movieService;
-        this.movieMapper = movieMapper;
-        this.addMovieRatingApiCounter = addMovieRatingApiCounter;
-    }
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<MovieApiDto> findMovies(@RequestParam(defaultValue = "0") int page,
+    public List<MovieApiDto> findMovies(@RequestParam(defaultValue = "0")
+                                        @Min(value = 0, message = "{PAGE_MIN_VALUE}") int page,
                                         @RequestParam(defaultValue = "10")
+                                        @Min(value = 1, message = "{SIZE_MIN_VALUE}")
                                         @Max(value = 100, message = "{SIZE_MAX_VALUE}") int size,
                                         @RequestParam(defaultValue = "DEFAULT") String sortBy,
                                         @RequestParam(defaultValue = "true") boolean ascending) {
