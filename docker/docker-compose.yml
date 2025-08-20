@@ -33,7 +33,6 @@ services:
     depends_on:
       - pm-prometheus
     volumes:
-#      - ./grafana/tmp:/var/lib/grafana
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards

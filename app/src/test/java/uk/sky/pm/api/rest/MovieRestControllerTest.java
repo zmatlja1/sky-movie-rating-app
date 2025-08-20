@@ -13,7 +13,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import uk.sky.pm.api.rest.enums.SortBy;
+import uk.sky.pm.enums.SortBy;
 import uk.sky.pm.api.rest.v1.MovieRestController;
 import uk.sky.pm.api.rest.v1.dto.ErrorApiDto;
 import uk.sky.pm.api.rest.v1.dto.MovieApiDto;
@@ -92,6 +92,19 @@ public class MovieRestControllerTest {
     void test_noAuthUser_returnMovies_invalidPageSize() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/rest/v1/movies")
                 .param("size", "101")
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(status().isBadRequest());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/v1/movies")
+                .param("size", "-1")
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void test_noAuthUser_returnMovies_invalidPageNumber() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/v1/movies")
+                .param("page", "-1")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(status().isBadRequest());
     }

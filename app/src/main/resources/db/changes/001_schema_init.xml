@@ -4,7 +4,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <!-- Create PM_USER table -->
     <changeSet id="create_pm_user_table" author="jan.zmatlik">
         <createTable tableName="PM_USER">
             <column name="ID" type="BIGINT" autoIncrement="true">
@@ -15,8 +14,13 @@
             <column name="PASSWORD" type="VARCHAR(150)"/>
         </createTable>
 
+        <addUniqueConstraint columnNames="EMAIL"
+                             constraintName="CS_PM_USER_EMAIL_UNIQUE"
+                             tableName="PM_USER"/>
+
         <createIndex indexName="IDX_PM_USER_EMAIL" tableName="PM_USER">
-            <column name="EMAIL"/>
+            <column name="EMAIL" />
+
         </createIndex>
     </changeSet>
 
@@ -37,9 +41,14 @@
             </column>
             <column name="VERSION" type="BIGINT"/>
             <column name="RATING" type="INT"/>
-            <column name="USER_ID" type="BIGINT"/>
+            <column name="USER_ID" type="BIGINT" />
             <column name="MOVIE_ID" type="BIGINT"/>
         </createTable>
+
+        <sql>
+            ALTER TABLE PM_RATING
+                ADD CONSTRAINT CS_PM_RATING_RATING CHECK (rating BETWEEN 1 AND 5);
+        </sql>
 
         <addForeignKeyConstraint
                 baseTableName="PM_RATING"

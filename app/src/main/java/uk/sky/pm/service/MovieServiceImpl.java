@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uk.sky.pm.api.rest.enums.SortBy;
+import uk.sky.pm.enums.SortBy;
 import uk.sky.pm.dao.MovieRepository;
 import uk.sky.pm.dao.RatingRepository;
 import uk.sky.pm.dao.UserRepository;

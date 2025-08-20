@@ -1,4 +1,4 @@
-package uk.sky.pm.api.rest.enums;
+package uk.sky.pm.enums;
 
 public enum SortBy {
 
